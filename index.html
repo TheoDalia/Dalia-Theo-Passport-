@@ -144,11 +144,8 @@ footer{background:var(--green);padding:48px 20px;text-align:center;}
 </head>
 <body>
 
-<!-- Music Player -->
-<audio id="bgMusic" loop preload="auto">
-  <source src="Ordinary.mp3" type="audio/mpeg">
-</audio>
-<div id="musicBtn" onclick="toggleMusic()" title="Muzică" style="position:fixed;bottom:24px;right:24px;z-index:9999;width:46px;height:46px;background:var(--green);border:1.5px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,0.3);transition:all 0.3s;font-size:18px;" title="Pornește/oprește muzica">🔇</div>
+<audio id="bgMusic" src="Ordinary.mp3" loop preload="auto"></audio>
+<button id="musicBtn" onclick="toggleMusic()" style="position:fixed;bottom:24px;right:24px;z-index:9999;width:50px;height:50px;background:#1a3a2a;border:1.5px solid #c9a84c;border-radius:50%;font-size:20px;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,0.4);display:none;">🔇</button>
 
 <div id="globeIntro">
   <canvas id="globeCanvas"></canvas>
@@ -217,9 +214,6 @@ footer{background:var(--green);padding:48px 20px;text-align:center;}
       <div class="count-item"><span class="count-num" id="cd-sec">--</span><span class="count-label">Secunde</span></div>
     </div>
     <a href="#poveste" class="scroll-btn"><span>Descoperă</span><div class="scroll-arrow"></div></a>
-    <div id="musicHint" style="margin-top:20px;display:none;">
-      <button onclick="toggleMusic()" style="background:transparent;border:1px solid rgba(201,168,76,0.4);border-radius:20px;padding:8px 24px;color:var(--gold);font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;">🎵 Pornește muzica</button>
-    </div>
   </div>
 </section>
 <nav>
@@ -416,16 +410,25 @@ function deschideInvitatia() {
     l.style.display="none";
     document.getElementById("mainSite").style.display="block";
     startCountdown();
-    var audio = document.getElementById("bgMusic");
-    audio.volume = 0.5;
-    audio.play().then(function(){ 
-      document.getElementById("musicBtn").textContent="🎵"; 
-      musicPlaying=true; musicStarted=true; 
-    }).catch(function(e){ 
-      console.log("Audio blocked:", e); 
-      document.getElementById("musicHint").style.display="block";
+    // Porneste muzica
+    var audio=document.getElementById("bgMusic");
+    var btn=document.getElementById("musicBtn");
+    audio.volume=0.4;
+    audio.play().then(function(){
+      btn.style.display="block";
+      btn.textContent="🎵";
+    }).catch(function(){
+      btn.style.display="block";
+      btn.textContent="🔇";
     });
   },800);
+}
+
+function toggleMusic(){
+  var audio=document.getElementById("bgMusic");
+  var btn=document.getElementById("musicBtn");
+  if(audio.paused){ audio.play(); btn.textContent="🎵"; }
+  else { audio.pause(); btn.textContent="🔇"; }
 }
 
 function startCountdown() {
@@ -516,27 +519,6 @@ function submitRSVP(e){
 function declineRSVP(){
   document.getElementById("rsvpForm").style.display="none";
   document.getElementById("formDecline").style.display="block";
-}
-
-// Music
-var musicPlaying = false;
-var musicStarted = false;
-function toggleMusic(){
-  var audio = document.getElementById("bgMusic");
-  var btn = document.getElementById("musicBtn");
-  var hint = document.getElementById("musicHint");
-  if(musicPlaying){ audio.pause(); btn.textContent="🔇"; musicPlaying=false; }
-  else { audio.play(); btn.textContent="🎵"; musicPlaying=true; musicStarted=true; if(hint) hint.style.display="none"; }
-}
-function autoStartMusic(){
-  if(!musicStarted){
-    var audio = document.getElementById("bgMusic");
-    audio.volume = 0.5;
-    audio.play().then(function(){ 
-      document.getElementById("musicBtn").textContent="🎵"; 
-      musicPlaying=true; musicStarted=true; 
-    }).catch(function(){});
-  }
 }
 
 document.querySelectorAll('a[href^="#"]').forEach(function(a){
