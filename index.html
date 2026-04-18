@@ -302,11 +302,11 @@ footer{background:var(--green);padding:48px 20px;text-align:center;}
       <div id="persoaneleContainer"></div>
       <div class="form-group">
         <label class="form-label">Adresa ta de e-mail</label>
-        <input type="email" class="form-input" name="email" placeholder="guest@email.ro">
+        <input type="email" class="form-input" name="Email" placeholder="guest@email.ro">
       </div>
       <div class="form-group">
         <label class="form-label">Număr de telefon</label>
-        <input type="tel" class="form-input" name="telefon" placeholder="07xx xxx xxx">
+        <input type="tel" class="form-input" name="Telefon" placeholder="07xx xxx xxx">
       </div>
       <div class="form-group">
         <label class="form-label">Cazare</label>
@@ -314,11 +314,11 @@ footer{background:var(--green);padding:48px 20px;text-align:center;}
           <button type="button" class="meniu-btn" id="cazare-da" onclick="selectCazare('da')">🏨 Doresc cazare</button>
           <button type="button" class="meniu-btn" id="cazare-nu" onclick="selectCazare('nu')">✖ Nu doresc cazare</button>
         </div>
-        <input type="hidden" name="cazare" id="hid-cazare">
+        <input type="hidden" name="Cazare" id="hid-cazare">
       </div>
       <div class="form-group">
         <label class="form-label">Vrei să ne transmiți ceva?</label>
-        <textarea class="form-input form-textarea" name="mesaj" placeholder="ex: Trimite-ne gândurile tale..."></textarea>
+        <textarea class="form-input form-textarea" name="Mesaj" placeholder="ex: Trimite-ne gândurile tale..."></textarea>
       </div>
       <button type="submit" class="btn-submit">🛩️ Da, voi participa</button>
       <button type="button" class="btn-decline" onclick="declineRSVP()">Nu pot participa</button>
@@ -458,12 +458,12 @@ function updatePersoane(){
     var te=document.createElement("div"); te.className="persoana-titlu"; te.textContent=titlu; b.appendChild(te);
     var ng=document.createElement("div"); ng.className="form-group";
     var nl=document.createElement("label"); nl.className="form-label"; nl.textContent="Numele complet";
-    var ni=document.createElement("input"); ni.type="text"; ni.className="form-input"; ni.name="nume_"+i; ni.placeholder="Prenume si Nume"; ni.required=true;
+    var ni=document.createElement("input"); ni.type="text"; ni.className="form-input"; ni.name="Participant "+i+" - Nume"; ni.placeholder="Prenume si Nume"; ni.required=true;
     ng.appendChild(nl); ng.appendChild(ni); b.appendChild(ng);
     var tg=document.createElement("div"); tg.className="form-group";
     var tl=document.createElement("label"); tl.className="form-label"; tl.textContent="Tip participant"; tg.appendChild(tl);
     var tr=document.createElement("div"); tr.className="meniu-row"; tr.id="tip-row-"+i;
-    var ht=document.createElement("input"); ht.type="hidden"; ht.name="tip_"+i; ht.id="hid-tip-"+i; ht.value="Adult";
+    var ht=document.createElement("input"); ht.type="hidden"; ht.name="Participant "+i+" - Tip"; ht.id="hid-tip-"+i; ht.value="Adult";
     var tipuri=["👤 Adult","👶 Copil"],tipValori=["Adult","Copil"];
     for(var tt=0;tt<2;tt++){
       (function(tt,i){
@@ -487,7 +487,7 @@ function updatePersoane(){
 function buildMeniu(i,tip,wid,vis){
   var mg=document.createElement("div"); mg.className="form-group"; mg.id=wid; mg.style.display=vis?"block":"none";
   var ml=document.createElement("label"); ml.className="form-label"; ml.textContent=tip==="Copil"?"Meniu copil":"Meniu preferat"; mg.appendChild(ml);
-  var hn="mn_"+tip.toLowerCase()+"_"+i;
+  var hn="Participant "+i+(tip==="Copil"?" - Meniu Copil":" - Meniu");
   var mr=document.createElement("div"); mr.className="meniu-row"; mr.id="mr-"+tip.toLowerCase()+"-"+i;
   var hi=document.createElement("input"); hi.type="hidden"; hi.name=hn; hi.id="hid-"+hn;
   var opt=tip==="Copil"?["🍗 Normal","🥗 Vegetarian"]:["🍖 Normal","🥗 Vegetarian","🌱 Vegan"];
