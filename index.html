@@ -563,6 +563,7 @@ function declineRSVP(){
     var tlHeight = timeline.offsetHeight;
     var planeSize = 28;
     var maxTop = tlHeight - planeSize;
+    if(maxTop < 100) maxTop = 600;
     var start = null;
     var duration = 4000;
     var going = true;
