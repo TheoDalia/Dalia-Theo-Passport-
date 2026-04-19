@@ -532,14 +532,31 @@ function submitRSVP(e){
   templateParams.title = "RSVP Nunta Dalia & Theo";
   templateParams.name = templateParams["Email"] || "Invitat";
 
-  emailjs.send("DaliaTheoPassport", "template_2zmpihi", templateParams)
-  .then(function(){
-    form.style.display="none";
-    document.getElementById("formSuccess").style.display="block";
-  }, function(){
+  fetch("https://api.emailjs.com/api/v1.0/email/send", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      service_id: "DaliaTheoPassport",
+      template_id: "template_2zmpihi",
+      user_id: "6907dom780g3-4KIe",
+      template_params: templateParams
+    })
+  })
+  .then(function(r){
+    if(r.ok){
+      form.style.display="none";
+      document.getElementById("formSuccess").style.display="block";
+    } else {
+      r.text().then(function(t){ console.log("EmailJS error:", t); });
+      btn.textContent="🛩️ Da, voi participa";
+      btn.disabled=false;
+      alert("Eroare. Incearca din nou.");
+    }
+  }).catch(function(err){
+    console.log("Fetch error:", err);
     btn.textContent="🛩️ Da, voi participa";
     btn.disabled=false;
-    alert("Eroare. Incearca din nou.");
+    alert("Eroare conexiune.");
   });
 }
 
