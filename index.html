@@ -144,8 +144,12 @@ footer{background:var(--green);padding:48px 20px;text-align:center;}
   .nav-logo{font-size:22px;}
 }
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script>emailjs.init({publicKey: "6907dom780g3-4KIe"});</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script type="text/javascript">
+  (function(){
+    emailjs.init({publicKey:"6907dom780g3-4KIe"});
+  })();
+</script>
 </head>
 <body>
 
@@ -532,31 +536,15 @@ function submitRSVP(e){
   templateParams.title = "RSVP Nunta Dalia & Theo";
   templateParams.name = templateParams["Email"] || "Invitat";
 
-  fetch("https://api.emailjs.com/api/v1.0/email/send", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({
-      service_id: "DaliaTheoPassport",
-      template_id: "template_2zmpihi",
-      user_id: "6907dom780g3-4KIe",
-      template_params: templateParams
-    })
-  })
-  .then(function(r){
-    if(r.ok){
-      form.style.display="none";
-      document.getElementById("formSuccess").style.display="block";
-    } else {
-      r.text().then(function(t){ console.log("EmailJS error:", t); });
-      btn.textContent="🛩️ Da, voi participa";
-      btn.disabled=false;
-      alert("Eroare. Incearca din nou.");
-    }
-  }).catch(function(err){
-    console.log("Fetch error:", err);
+  emailjs.send("DaliaTheoPassport", "template_2zmpihi", templateParams)
+  .then(function(){
+    form.style.display="none";
+    document.getElementById("formSuccess").style.display="block";
+  }, function(error){
+    console.log("EmailJS error:", JSON.stringify(error));
     btn.textContent="🛩️ Da, voi participa";
     btn.disabled=false;
-    alert("Eroare conexiune.");
+    alert("Eroare. Incearca din nou.");
   });
 }
 
