@@ -92,11 +92,11 @@ section{padding:90px 20px;}
 .timeline{max-width:500px;margin:0 auto;position:relative;padding:0 20px;}
 .tl-line{position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(--gold) 10%,var(--gold) 90%,transparent);transform:translateX(-50%);}
 .tl-top{text-align:center;font-size:24px;margin-bottom:32px;position:relative;z-index:2;}
-.tl-plane-moving{position:absolute;left:50%;margin-left:-12px;font-size:24px;z-index:10;pointer-events:none;animation:planeMoveDown 5s ease-in-out infinite;}
+.tl-plane-moving{position:absolute;left:50%;margin-left:-12px;font-size:24px;z-index:10;pointer-events:none;top:0;animation:planeMoveDown 5s ease-in-out infinite;}
 @keyframes planeMoveDown{
-  0%{top:20px;transform:rotate(90deg);}
-  50%{top:calc(100% - 50px);transform:rotate(90deg);}
-  100%{top:20px;transform:rotate(90deg);}
+  0%{top:0px;}
+  50%{top:calc(100% - 30px);}
+  100%{top:0px;}
 }
 .tl-item{display:grid;grid-template-columns:1fr 48px 1fr;align-items:center;gap:16px;margin-bottom:48px;position:relative;z-index:2;}
 .tl-left{text-align:right;}.tl-right{text-align:left;}
