@@ -559,22 +559,24 @@ function declineRSVP(){
   function animatePlane(){
     var plane = document.querySelector('.tl-plane-moving');
     var timeline = document.querySelector('.timeline');
-    if(!plane || !timeline) return;
-    var tlHeight = timeline.offsetHeight;
-    var planeSize = 28;
-    var maxTop = tlHeight - planeSize;
-    if(maxTop < 100) maxTop = 600;
-    var start = null;
+    var topMarker = document.querySelector('.tl-top');
+    var bottomMarker = document.querySelector('.tl-bottom');
+    if(!plane || !timeline || !topMarker || !bottomMarker) return;
+    var tlRect = timeline.getBoundingClientRect();
+    var topRect = topMarker.getBoundingClientRect();
+    var botRect = bottomMarker.getBoundingClientRect();
+    var startPos = topRect.top - tlRect.top;
+    var endPos = botRect.top - tlRect.top;
     var duration = 4000;
-    var going = true;
+    var start = null;
     function step(ts){
       if(!start) start = ts;
       var elapsed = (ts - start) % (duration * 2);
       var pos;
       if(elapsed < duration){
-        pos = (elapsed / duration) * maxTop;
+        pos = startPos + (elapsed / duration) * (endPos - startPos);
       } else {
-        pos = maxTop - ((elapsed - duration) / duration) * maxTop;
+        pos = endPos - ((elapsed - duration) / duration) * (endPos - startPos);
       }
       plane.style.top = pos + 'px';
       requestAnimationFrame(step);
