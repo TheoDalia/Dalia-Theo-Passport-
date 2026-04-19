@@ -74,9 +74,10 @@ nav{position:sticky;top:0;z-index:100;background:var(--green);padding:14px 40px;
 .count-sep{font-size:26px;color:rgba(255,255,255,0.2);align-self:flex-start;margin-top:4px;}
 .scroll-btn{display:inline-flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,0.3);font-size:8px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;transition:color 0.3s;}
 .scroll-btn:hover{color:var(--gold);}
-.scroll-arrow{width:1px;height:40px;background:linear-gradient(to bottom,rgba(255,255,255,0.3),transparent);animation:scrollPulse 2s ease infinite;}
+.scroll-arrow{font-size:22px;color:rgba(201,168,76,0.6);line-height:1;}
 @keyframes scrollPulse{0%,100%{opacity:0.3;}50%{opacity:1;}}
 @keyframes vespaBob{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+@keyframes arrowBounce{0%,100%{transform:translateY(0);opacity:0.5;}50%{transform:translateY(4px);opacity:1;}}
 section{padding:90px 20px;}
 .section-eyebrow{font-size:8px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:10px;}
 .section-title{font-family:"Pinyon Script",cursive;font-size:clamp(42px,8vw,64px);color:var(--dark);text-align:center;line-height:1;margin-bottom:48px;}
@@ -246,8 +247,11 @@ footer{background:var(--green);padding:48px 20px;text-align:center;}
       <span class="count-sep">·</span>
       <div class="count-item"><span class="count-num" id="cd-sec">--</span><span class="count-label">Secunde</span></div>
     </div>
-    <a href="#poveste" class="scroll-btn"><span>Descoperă</span><div class="scroll-arrow"></div></a>
-    <div style="margin-top:16px;animation:vespaBob 2s ease-in-out infinite;font-size:32px;cursor:pointer;" onclick="document.getElementById('poveste').scrollIntoView({behavior:'smooth'})">🛵</div>
+    <a href="#poveste" class="scroll-btn"><span>Descoperă</span><div class="scroll-arrow">↓</div></a>
+    <div style="margin-top:16px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;" onclick="document.getElementById('poveste').scrollIntoView({behavior:'smooth'})">
+      <div style="color:rgba(201,168,76,0.8);font-size:28px;line-height:1;">↓</div>
+      <div style="animation:vespaBob 2s ease-in-out infinite;font-size:32px;">🛵</div>
+    </div>
   </div>
 </section>
 
