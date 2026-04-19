@@ -571,6 +571,37 @@ function declineRSVP(){
 }
 
 
+// Animatie avion timeline cu emoticoane
+(function(){
+  var plane = null;
+  function initPlane(){
+    plane = document.querySelector('.tl-plane-moving');
+    if(plane) plane.textContent = '🛫';
+  }
+  // Schimba emoticonul in functie de directie
+  var lastPos = 0;
+  var originalAnim = null;
+  function watchPlane(){
+    plane = document.querySelector('.tl-plane-moving');
+    if(!plane) { setTimeout(watchPlane, 200); return; }
+    plane.textContent = '🛫';
+    setInterval(function(){
+      var rect = plane.getBoundingClientRect();
+      var tl = document.querySelector('.timeline');
+      if(!tl) return;
+      var tlRect = tl.getBoundingClientRect();
+      var relPos = rect.top - tlRect.top;
+      var tlHeight = tlRect.height;
+      if(relPos > tlHeight * 0.6){
+        plane.textContent = '🛬';
+      } else {
+        plane.textContent = '🛫';
+      }
+    }, 100);
+  }
+  setTimeout(watchPlane, 500);
+})();
+
 document.querySelectorAll('a[href^="#"]').forEach(function(a){
   a.addEventListener("click",function(e){
     e.preventDefault();
