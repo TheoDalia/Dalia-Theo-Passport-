@@ -247,9 +247,9 @@ footer{background:var(--green);padding:48px 20px;text-align:center;}
       <span class="count-sep">·</span>
       <div class="count-item"><span class="count-num" id="cd-sec">--</span><span class="count-label">Secunde</span></div>
     </div>
-    <a href="#poveste" class="scroll-btn"><span>Descoperă</span><div class="scroll-arrow">↓</div></a>
-    <div style="margin-top:16px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;" onclick="document.getElementById('poveste').scrollIntoView({behavior:'smooth'})">
-      <div style="color:rgba(201,168,76,0.8);font-size:28px;line-height:1;">↓</div>
+    <a href="#poveste" class="scroll-btn"><span>Descoperă</span></a>
+    <div style="margin-top:8px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;" onclick="document.getElementById('poveste').scrollIntoView({behavior:'smooth'})">
+      <div style="animation:arrowBounce 1.2s ease-in-out infinite;color:rgba(201,168,76,0.8);font-size:30px;line-height:1;">↓</div>
       <div style="animation:vespaBob 2s ease-in-out infinite;font-size:32px;">🛵</div>
     </div>
   </div>
@@ -577,16 +577,8 @@ function declineRSVP(){
 
 // Animatie avion timeline cu emoticoane
 (function(){
-  var plane = null;
-  function initPlane(){
-    plane = document.querySelector('.tl-plane-moving');
-    if(plane) plane.textContent = '🛫';
-  }
-  // Schimba emoticonul in functie de directie
-  var lastPos = 0;
-  var originalAnim = null;
   function watchPlane(){
-    plane = document.querySelector('.tl-plane-moving');
+    var plane = document.querySelector('.tl-plane-moving');
     if(!plane) { setTimeout(watchPlane, 200); return; }
     plane.textContent = '🛫';
     setInterval(function(){
@@ -596,10 +588,12 @@ function declineRSVP(){
       var tlRect = tl.getBoundingClientRect();
       var relPos = rect.top - tlRect.top;
       var tlHeight = tlRect.height;
-      if(relPos > tlHeight * 0.6){
-        plane.textContent = '🛬';
-      } else {
+      if(relPos < tlHeight * 0.2){
         plane.textContent = '🛫';
+      } else if(relPos < tlHeight * 0.75){
+        plane.textContent = '🛩️';
+      } else {
+        plane.textContent = '🛬';
       }
     }, 100);
   }
