@@ -92,7 +92,12 @@ section{padding:90px 20px;}
 .timeline{max-width:500px;margin:0 auto;position:relative;padding:0 20px;}
 .tl-line{position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(--gold) 10%,var(--gold) 90%,transparent);transform:translateX(-50%);}
 .tl-top{text-align:center;font-size:24px;margin-bottom:32px;position:relative;z-index:2;}
-.tl-plane-moving{position:absolute;left:50%;transform:translateX(-50%) rotate(90deg);font-size:24px;z-index:10;pointer-events:none;top:0;transition:none;}
+.tl-plane-moving{position:absolute;left:50%;margin-left:-12px;font-size:24px;z-index:10;pointer-events:none;animation:planeMoveDown 5s ease-in-out infinite;}
+@keyframes planeMoveDown{
+  0%{top:20px;transform:rotate(90deg);}
+  50%{top:calc(100% - 50px);transform:rotate(90deg);}
+  100%{top:20px;transform:rotate(90deg);}
+}
 .tl-item{display:grid;grid-template-columns:1fr 48px 1fr;align-items:center;gap:16px;margin-bottom:48px;position:relative;z-index:2;}
 .tl-left{text-align:right;}.tl-right{text-align:left;}
 .tl-dot{width:48px;height:48px;background:var(--green);border:2px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;justify-self:center;box-shadow:0 0 0 4px rgba(201,168,76,0.1);}
@@ -554,42 +559,6 @@ function declineRSVP(){
   document.getElementById("formDecline").style.display="block";
 }
 
-// Animatie avion timeline
-(function(){
-  function animatePlane(){
-    var plane = document.querySelector('.tl-plane-moving');
-    var timeline = document.querySelector('.timeline');
-    var topMarker = document.querySelector('.tl-top');
-    var bottomMarker = document.querySelector('.tl-bottom');
-    if(!plane || !timeline || !topMarker || !bottomMarker) return;
-    var tlRect = timeline.getBoundingClientRect();
-    var topRect = topMarker.getBoundingClientRect();
-    var botRect = bottomMarker.getBoundingClientRect();
-    var startPos = topRect.top - tlRect.top;
-    var endPos = botRect.top - tlRect.top;
-    var duration = 4000;
-    var start = null;
-    function step(ts){
-      if(!start) start = ts;
-      var elapsed = (ts - start) % (duration * 2);
-      var pos;
-      if(elapsed < duration){
-        pos = startPos + (elapsed / duration) * (endPos - startPos);
-      } else {
-        pos = endPos - ((elapsed - duration) / duration) * (endPos - startPos);
-      }
-      plane.style.top = pos + 'px';
-      requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  }
-  // Porneste dupa ce site-ul e vizibil
-  var orig = window.deschideInvitatia;
-  setTimeout(animatePlane, 100);
-  document.addEventListener('DOMContentLoaded', function(){
-    setTimeout(animatePlane, 500);
-  });
-})();
 
 document.querySelectorAll('a[href^="#"]').forEach(function(a){
   a.addEventListener("click",function(e){
