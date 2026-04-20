@@ -146,7 +146,11 @@ footer{background:var(--green);padding:48px 20px;text-align:center;}
 .footer-tagline{font-family:"Cormorant Garamond",serif;font-size:13px;font-style:italic;color:rgba(255,255,255,0.4);margin-bottom:32px;}
 .footer-names{font-family:"Pinyon Script",cursive;font-size:52px;color:var(--gold);margin-bottom:12px;}
 .footer-date{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:rgba(255,255,255,0.3);}
-@media(max-width:700px){
+.lang-switcher{display:flex;gap:6px;align-items:center;}
+.lang-btn{background:none;border:1.5px solid rgba(201,168,76,0.3);border-radius:50%;width:28px;height:28px;font-size:16px;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;justify-content:center;padding:0;}
+.lang-btn:hover{border-color:var(--gold);transform:scale(1.1);}
+.lang-btn.active{border-color:var(--gold);box-shadow:0 0 8px rgba(201,168,76,0.5);}
+@media(max-width:700px){.lang-switcher{justify-content:center;}.lang-btn{width:24px;height:24px;font-size:14px;}
   .story-grid{grid-template-columns:1fr;}
   .tl-item{grid-template-columns:1fr 40px 1fr;gap:10px;}
   .nav-links{display:flex!important;flex-wrap:wrap;gap:6px;justify-content:center;}
@@ -202,23 +206,23 @@ footer{background:var(--green);padding:48px 20px;text-align:center;}
   <span class="float-emoji" style="bottom:30%;left:7%;animation-delay:3s">🛵</span>
   <div class="bc-card">
     <div class="bc-top">
-      <div class="bc-airline">🛩️ Love Airlines</div>
-      <div class="bc-title">Permis de călătorie</div>
+      <div class="bc-airline" id="bc-airline">🛩️ Love Airlines</div>
+      <div class="bc-title" id="bc-title">Permis de călătorie</div>
       <div class="bc-names">Dalia &amp; Theo</div>
     </div>
     <div class="bc-body">
       <div class="bc-row">
-        <div><div class="bc-label">Poartă</div><div class="bc-val">PETRECERE</div></div>
-        <div><div class="bc-label">Zonă</div><div class="bc-val">LOUNGE</div></div>
-        <div><div class="bc-label">Compania</div><div class="bc-val red">LOVE AIRLINES</div></div>
+        <div><div class="bc-label" id="bc-l1">Poartă</div><div class="bc-val" id="bc-v1">PETRECERE</div></div>
+        <div><div class="bc-label" id="bc-l2">Zonă</div><div class="bc-val" id="bc-v2">LOUNGE</div></div>
+        <div><div class="bc-label" id="bc-l3">Compania</div><div class="bc-val red">LOVE AIRLINES</div></div>
       </div>
       <div class="bc-row">
-        <div><div class="bc-label">Data</div><div class="bc-val">23.08.26</div></div>
-        <div><div class="bc-label">Îmbarcare</div><div class="bc-val">PRIORITY</div></div>
-        <div><div class="bc-label">Status</div><div class="bc-val">TE ÎMBARCI?</div></div>
+        <div><div class="bc-label" id="bc-l4">Data</div><div class="bc-val">23.08.26</div></div>
+        <div><div class="bc-label" id="bc-l5">Îmbarcare</div><div class="bc-val">PRIORITY</div></div>
+        <div><div class="bc-label" id="bc-l6">Status</div><div class="bc-val" id="bc-status">TE ÎMBARCI?</div></div>
       </div>
       <div class="bc-bottom">
-        <div class="bc-dot-wrap"><div class="bc-dot"></div><span>Boarding</span></div>
+        <div class="bc-dot-wrap"><div class="bc-dot"></div><span id="bc-boarding">Boarding</span></div>
         <div class="bc-bars">
           <div class="bc-bar"></div><div class="bc-bar"></div><div class="bc-bar"></div>
           <div class="bc-bar"></div><div class="bc-bar"></div><div class="bc-bar"></div>
@@ -230,7 +234,7 @@ footer{background:var(--green);padding:48px 20px;text-align:center;}
     </div>
   </div>
   <div class="btn-open">
-    <button onclick="deschideInvitatia()"><span>🛩️ Deschide invitația</span></button>
+    <button onclick="deschideInvitatia()"><span id="btn-open-text">🛩️ Deschide invitația</span></button>
   </div>
 </div>
 
@@ -243,6 +247,11 @@ footer{background:var(--green);padding:48px 20px;text-align:center;}
     <li><a href="#program">🛵 ITINERARIU</a></li>
     <li><a href="#confirmare">🚁 ÎMBARCARE</a></li>
   </ul>
+  <div class="lang-switcher">
+    <button onclick="setLang('ro')" title="Romana" class="lang-btn active" id="btn-ro">🇷🇴</button>
+    <button onclick="setLang('it')" title="Italiana" class="lang-btn" id="btn-it">🇮🇹</button>
+    <button onclick="setLang('en')" title="English" class="lang-btn" id="btn-en">🇺🇸</button>
+  </div>
 </nav>
 <section class="hero" id="acasa">
   <span class="hero-stamp" style="top:8%;left:6%;transform:rotate(-12deg)">ROMA</span>
@@ -629,6 +638,153 @@ function declineRSVP(){
   }
   setTimeout(watchPlane, 500);
 })();
+
+// Language switcher
+var translations = {
+  ro: {
+    nav1: '🛩️ PERMIS CĂLĂTORIE', nav2: '🚂 PASAGERII', nav3: '🛵 ITINERARIU', nav4: '🚁 ÎMBARCARE',
+    bc_airline: '🛩️ Love Airlines', bc_title: 'Permis de călătorie',
+    bc_l1: 'Poartă', bc_v1: 'PETRECERE', bc_l2: 'Zonă', bc_l3: 'Compania',
+    bc_l4: 'Data', bc_l5: 'Îmbarcare', bc_l6: 'Status', bc_status: 'TE ÎMBARCI?',
+    bc_boarding: 'Boarding', btn_open: '🛩️ Deschide invitația',
+    eyebrow_hero: '🛩️ Love Airlines · Zbor Special',
+    hero_date: '23 · August · 2026',
+    label_zile: 'Zile', label_ore: 'Ore', label_min: 'Minute', label_sec: 'Secunde',
+    scroll: 'Descoperă',
+    eyebrow_story: '🛩️ Pasagerii zborului', title_story: 'Povestea noastră',
+    eyebrow_program: '🛩️ Itinerarul zborului', title_program: 'Program',
+    time1: '23 Aug · 16:00', name1: 'Cununia religioasă', place1: 'Moonfields, Tâncăbești',
+    time2: '23 Aug · 17:00', name2: 'Party la altitudine maximă', place2: 'Moonfields, Tâncăbești',
+    time3: 'Seara', name3: 'Dans & Bucurie', place3: 'Turbulențe garantate',
+    eyebrow_rsvp: '🛩️ Îmbarcare', title_rsvp: 'Confirmă prezența',
+    btn_da: '🛩️ Da, voi participa', btn_nu: 'Nu pot participa',
+    footer_date: '23 · 08 · 2026 · MOONFIELDS, TÂNCĂBEȘTI'
+  },
+  it: {
+    nav1: '🛩️ PERMESSO DI VIAGGIO', nav2: '🚂 PASSEGGERI', nav3: '🛵 ITINERARIO', nav4: '🚁 IMBARCO',
+    bc_airline: '🛩️ Love Airlines', bc_title: 'Permesso di viaggio',
+    bc_l1: 'Porta', bc_v1: 'FESTA', bc_l2: 'Zona', bc_l3: 'Compagnia',
+    bc_l4: 'Data', bc_l5: 'Imbarco', bc_l6: 'Stato', bc_status: 'TI IMBARCHI?',
+    bc_boarding: 'Imbarco', btn_open: '🛩️ Apri l\'invito',
+    eyebrow_hero: '🛩️ Love Airlines · Volo Speciale',
+    hero_date: '23 · Agosto · 2026',
+    label_zile: 'Giorni', label_ore: 'Ore', label_min: 'Minuti', label_sec: 'Secondi',
+    scroll: 'Scopri',
+    eyebrow_story: '🛩️ I passeggeri del volo', title_story: 'La nostra storia',
+    eyebrow_program: '🛩️ Itinerario del volo', title_program: 'Programma',
+    time1: '23 Ago · 16:00', name1: 'Cerimonia religiosa', place1: 'Moonfields, Tâncăbești',
+    time2: '23 Ago · 17:00', name2: 'Festa ad alta quota', place2: 'Moonfields, Tâncăbești',
+    time3: 'Sera', name3: 'Ballo & Gioia', place3: 'Turbolenze garantite',
+    eyebrow_rsvp: '🛩️ Imbarco', title_rsvp: 'Conferma la presenza',
+    btn_da: '🛩️ Sì, parteciperò', btn_nu: 'Non posso partecipare',
+    footer_date: '23 · 08 · 2026 · MOONFIELDS, TÂNCĂBEȘTI'
+  },
+  en: {
+    nav1: '🛩️ BOARDING PASS', nav2: '🚂 PASSENGERS', nav3: '🛵 ITINERARY', nav4: '🚁 CHECK-IN',
+    bc_airline: '🛩️ Love Airlines', bc_title: 'Boarding Pass',
+    bc_l1: 'Gate', bc_v1: 'PARTY', bc_l2: 'Zone', bc_l3: 'Airline',
+    bc_l4: 'Date', bc_l5: 'Boarding', bc_l6: 'Status', bc_status: 'BOARDING?',
+    bc_boarding: 'Boarding', btn_open: '🛩️ Open invitation',
+    eyebrow_hero: '🛩️ Love Airlines · Special Flight',
+    hero_date: '23 · August · 2026',
+    label_zile: 'Days', label_ore: 'Hours', label_min: 'Minutes', label_sec: 'Seconds',
+    scroll: 'Discover',
+    eyebrow_story: '🛩️ Flight passengers', title_story: 'Our story',
+    eyebrow_program: '🛩️ Flight itinerary', title_program: 'Program',
+    time1: 'Aug 23 · 4:00 PM', name1: 'Religious ceremony', place1: 'Moonfields, Tâncăbești',
+    time2: 'Aug 23 · 5:00 PM', name2: 'Party at maximum altitude', place2: 'Moonfields, Tâncăbești',
+    time3: 'Evening', name3: 'Dance & Joy', place3: 'Turbulence guaranteed',
+    eyebrow_rsvp: '🛩️ Check-in', title_rsvp: 'Confirm your presence',
+    btn_da: '🛩️ Yes, I will attend', btn_nu: 'I cannot attend',
+    footer_date: '23 · 08 · 2026 · MOONFIELDS, TÂNCĂBEȘTI'
+  }
+};
+
+function setLang(lang) {
+  var t = translations[lang];
+  if(!t) return;
+
+  // Boarding pass
+  var bcAirline = document.getElementById('bc-airline');
+  if(bcAirline) bcAirline.textContent = t.bc_airline;
+  var bcTitle = document.getElementById('bc-title');
+  if(bcTitle) bcTitle.textContent = t.bc_title;
+  var bcL1 = document.getElementById('bc-l1'); if(bcL1) bcL1.textContent = t.bc_l1;
+  var bcV1 = document.getElementById('bc-v1'); if(bcV1) bcV1.textContent = t.bc_v1;
+  var bcL2 = document.getElementById('bc-l2'); if(bcL2) bcL2.textContent = t.bc_l2;
+  var bcL3 = document.getElementById('bc-l3'); if(bcL3) bcL3.textContent = t.bc_l3;
+  var bcL4 = document.getElementById('bc-l4'); if(bcL4) bcL4.textContent = t.bc_l4;
+  var bcL5 = document.getElementById('bc-l5'); if(bcL5) bcL5.textContent = t.bc_l5;
+  var bcL6 = document.getElementById('bc-l6'); if(bcL6) bcL6.textContent = t.bc_l6;
+  var bcStatus = document.getElementById('bc-status'); if(bcStatus) bcStatus.textContent = t.bc_status;
+  var bcBoarding = document.getElementById('bc-boarding'); if(bcBoarding) bcBoarding.textContent = t.bc_boarding;
+  var btnOpenText = document.getElementById('btn-open-text'); if(btnOpenText) btnOpenText.textContent = t.btn_open;
+
+  // Navbar
+  var links = document.querySelectorAll('.nav-links a');
+  if(links[0]) links[0].textContent = t.nav1;
+  if(links[1]) links[1].textContent = t.nav2;
+  if(links[2]) links[2].textContent = t.nav3;
+  if(links[3]) links[3].textContent = t.nav4;
+
+  // Hero
+  var eyebrows = document.querySelectorAll('.hero-eyebrow');
+  if(eyebrows[0]) eyebrows[0].textContent = t.eyebrow_hero;
+  var heroDate = document.querySelector('.hero-date');
+  if(heroDate) heroDate.textContent = t.hero_date;
+
+  // Countdown labels
+  var labels = document.querySelectorAll('.count-label');
+  if(labels[0]) labels[0].textContent = t.label_zile;
+  if(labels[1]) labels[1].textContent = t.label_ore;
+  if(labels[2]) labels[2].textContent = t.label_min;
+  if(labels[3]) labels[3].textContent = t.label_sec;
+
+  // Scroll
+  var scrollBtn = document.querySelector('.scroll-btn span');
+  if(scrollBtn) scrollBtn.textContent = t.scroll;
+
+  // Story
+  var eyebrowStory = document.querySelector('#poveste .section-eyebrow');
+  if(eyebrowStory) eyebrowStory.textContent = t.eyebrow_story;
+  var titleStory = document.querySelector('#poveste .section-title');
+  if(titleStory) titleStory.textContent = t.title_story;
+
+  // Program
+  var eyebrowProgram = document.querySelector('#program .section-eyebrow');
+  if(eyebrowProgram) eyebrowProgram.textContent = t.eyebrow_program;
+  var titleProgram = document.querySelector('#program .section-title');
+  if(titleProgram) titleProgram.textContent = t.title_program;
+
+  // Timeline items
+  var times = document.querySelectorAll('.tl-time');
+  var names = document.querySelectorAll('.tl-name');
+  var places = document.querySelectorAll('.tl-place');
+  if(times[0]) times[0].textContent = t.time1;
+  if(names[0]) names[0].textContent = t.name1;
+  if(places[0]) places[0].textContent = t.place1;
+  if(times[1]) times[1].textContent = t.time2;
+  if(names[1]) names[1].textContent = t.name2;
+  if(places[1]) places[1].textContent = t.place2;
+  if(times[2]) times[2].textContent = t.time3;
+  if(names[2]) names[2].textContent = t.name3;
+  if(places[2]) places[2].textContent = t.place3;
+
+  // RSVP
+  var eyebrowRsvp = document.querySelector('#confirmare .section-eyebrow');
+  if(eyebrowRsvp) eyebrowRsvp.textContent = t.eyebrow_rsvp;
+  var titleRsvp = document.querySelector('#confirmare .section-title');
+  if(titleRsvp) titleRsvp.textContent = t.title_rsvp;
+  var btnDa = document.querySelector('.btn-submit');
+  if(btnDa) btnDa.textContent = t.btn_da;
+  var btnNu = document.querySelector('.btn-decline');
+  if(btnNu) btnNu.textContent = t.btn_nu;
+
+  // Active button
+  document.querySelectorAll('.lang-btn').forEach(function(b){ b.classList.remove('active'); });
+  var activeBtn = document.getElementById('btn-' + lang);
+  if(activeBtn) activeBtn.classList.add('active');
+}
 
 document.querySelectorAll('a[href^="#"]').forEach(function(a){
   a.addEventListener("click",function(e){
